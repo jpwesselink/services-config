@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>index.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>index.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>get an env in here</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>find all configs</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> argv = <span class="hljs-built_in">require</span>(<span class="hljs-string">'yargs'</span>).argv;
+<span class="hljs-keyword">var</span> constantCase = <span class="hljs-built_in">require</span>(<span class="hljs-string">'constant-case'</span>);
+<span class="hljs-keyword">var</span> negate = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash.negate'</span>);
+<span class="hljs-keyword">var</span> isObject = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash.isobject'</span>);
+<span class="hljs-keyword">var</span> isUndefined = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash.isundefined'</span>);
+<span class="hljs-keyword">var</span> merge = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash.merge'</span>);
+<span class="hljs-keyword">var</span> requireDir = <span class="hljs-built_in">require</span>(<span class="hljs-string">'require-dir'</span>);
+<span class="hljs-keyword">var</span> resolverRevolver = <span class="hljs-built_in">require</span>(<span class="hljs-string">'resolver-revolver'</span>);
+<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
+<span class="hljs-keyword">var</span> zipObject = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash.zipobject'</span>);
+
+<span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">options</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>patch our console</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> defaults = {
+    <span class="hljs-built_in">console</span>: zipObject([<span class="hljs-string">'log'</span>, <span class="hljs-string">'info'</span>, <span class="hljs-string">'warn'</span>, <span class="hljs-string">'error'</span>].map(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">level</span>) </span>{
+      <span class="hljs-keyword">return</span> [level, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{}];
+    })),
+    prefix: <span class="hljs-string">'SERVICE_ENV_'</span>,
+    transformResult: transformResult,
+    transformCollection: transformCollection,
+    <span class="hljs-keyword">default</span>: <span class="hljs-string">'development'</span>
+  };
+
+  <span class="hljs-keyword">if</span> (isUndefined(options)) {
+    options = {};
+  }
+  <span class="hljs-keyword">if</span> (!isObject(options)) {
+    <span class="hljs-keyword">throw</span> {
+      name: <span class="hljs-string">'Error'</span>,
+      message: <span class="hljs-string">'Expected options to be an object'</span>
+    };
+  }
+
+  options = merge({}, defaults, options);
+  <span class="hljs-keyword">var</span> log = options.console.log;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Set up the fetching of all modules in ./services</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Show the world where we will look for modules</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  log(util.format(<span class="hljs-string">'Looking for services in %s'</span>,
+    options.services));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Grab those modules</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> services = requireDir(options.targets);
+
+  <span class="hljs-keyword">var</span> resolved = validateEnv();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>And give feedback on which ones we have found.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  log(util.format(<span class="hljs-string">'Found %s: %s'</span>,
+    <span class="hljs-built_in">Object</span>.keys(services).length,
+    <span class="hljs-built_in">Object</span>.keys(services).join(<span class="hljs-string">', '</span>)
+  ));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>suckage, refactor this dude</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> servicesConfig = {
+    one: one,
+    current: current,
+    all: all,
+    availableConfigs: availableConfigs
+  };
+
+  <span class="hljs-keyword">return</span> servicesConfig;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>functions</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transformResult</span>(<span class="hljs-params">value, serviceName</span>) </span>{
+    <span class="hljs-keyword">return</span> [serviceName, value];
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transformCollection</span>(<span class="hljs-params">tuple</span>) </span>{
+    <span class="hljs-keyword">return</span> zipObject(tuple);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">current</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> serviceNames = <span class="hljs-built_in">Array</span>.prototype.slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">return</span> options.transformCollection(serviceNames.map(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">serviceName</span>) </span>{
+      <span class="hljs-keyword">var</span> targetName = resolved[serviceName]();
+
+      <span class="hljs-keyword">var</span> foundService = one(serviceName);
+      <span class="hljs-keyword">return</span> options.transformResult({
+          target: targetName,
+          service: foundService[targetName]
+        },
+        serviceName);
+    }));
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">one</span>(<span class="hljs-params">serviceName</span>) </span>{
+    <span class="hljs-keyword">var</span> foundService = services[serviceName];
+    <span class="hljs-keyword">if</span> (isUndefined(foundService)) {
+      <span class="hljs-keyword">throw</span> {
+        name: <span class="hljs-string">'Error'</span>,
+        message: util.format(
+          <span class="hljs-string">'Could not find service %s in %s'</span>,
+          foundService,
+          <span class="hljs-built_in">Object</span>.keys(services)
+        )
+      };
+    }
+
+    <span class="hljs-keyword">return</span> foundService;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">all</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> serviceNames = <span class="hljs-built_in">Array</span>.prototype.slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">if</span> (serviceNames.length === <span class="hljs-number">0</span>) {
+      serviceNames = <span class="hljs-built_in">Object</span>.keys(services);
+    }
+    <span class="hljs-keyword">return</span> zipObject(serviceNames.map(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">serviceName</span>) </span>{
+      <span class="hljs-keyword">var</span> service = one(serviceName);
+      <span class="hljs-keyword">return</span> [serviceName, merge({}, service)];
+    }));
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">availableConfigs</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.keys(services);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateEnv</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> isDefinedCondition = {
+      fn: negate(isUndefined),
+      name: <span class="hljs-string">'is defined'</span>
+    };
+
+    <span class="hljs-keyword">var</span> resolvables = zipObject(
+      <span class="hljs-built_in">Object</span>.keys(services)
+      .map(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">serviceName</span>) </span>{
+
+        <span class="hljs-keyword">var</span> constantName = constantCase(options.prefix + serviceName);
+        <span class="hljs-keyword">var</span> service = services[serviceName];
+        <span class="hljs-keyword">return</span> [serviceName, {
+          from: [<span class="hljs-string">'argv.'</span> + constantName, <span class="hljs-string">'process.env.'</span> + constantName],
+          <span class="hljs-keyword">default</span>: options.default,
+          preconditions: [isDefinedCondition, {
+            name: <span class="hljs-string">'is service'</span>,
+            fn: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) </span>{
+              <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.keys(service).indexOf(value) !== -<span class="hljs-number">1</span>;
+            }
+          }],
+          throwOnNoResolution: <span class="hljs-literal">true</span>
+        }];
+      })
+    );
+
+    <span class="hljs-keyword">var</span> resolved = resolverRevolver.parse({
+      <span class="hljs-built_in">console</span>: options.console,
+      context: {
+        argv: argv,
+        process: {
+          env: process.env
+        }
+      },
+      resolvables: resolvables
+    });
+
+    <span class="hljs-keyword">return</span> resolved;
+  }
+};</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
