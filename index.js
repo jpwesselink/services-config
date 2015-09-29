@@ -82,6 +82,7 @@ module.exports = function (options) {
       var targetName = resolved[serviceName]();
 
       var foundService = one(serviceName);
+
       return options.transformResult({
           target: targetName,
           service: foundService[targetName]
@@ -92,6 +93,9 @@ module.exports = function (options) {
 
   function one(serviceName) {
     var foundService = services[serviceName];
+    if (isFunction(foundService)) {
+      foundService = foundService();
+    }
     if (isUndefined(foundService)) {
       throw {
         name: 'Error',
