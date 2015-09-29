@@ -1,6 +1,6 @@
 {
   "name": "services-config",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Fetch and validate service configurations more easily",
   "main": "index.js",
   "repository": {
@@ -14,6 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "constant-case": "^1.1.1",
+    "lodash.isfunction": "^3.0.6",
     "lodash.isobject": "^3.0.2",
     "lodash.isundefined": "^3.0.1",
     "lodash.merge": "^3.3.2",

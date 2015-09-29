@@ -8,6 +8,7 @@ var constantCase = require('constant-case');
 var negate = require('lodash.negate');
 var isObject = require('lodash.isobject');
 var isUndefined = require('lodash.isundefined');
+var isFunction = require('lodash.isfunction');
 var merge = require('lodash.merge');
 var requireDir = require('require-dir');
 var resolverRevolver = require('resolver-revolver');
@@ -132,6 +133,9 @@ module.exports = function (options) {
 
         var constantName = constantCase(options.prefix + serviceName);
         var service = services[serviceName];
+        if (isFunction(service)) {
+          service = service();
+        }
         return [serviceName, {
           from: ['argv.' + constantName, 'process.env.' + constantName],
           default: options.default,
