@@ -44,7 +44,7 @@ module.exports = function (options) {
 
   // Show the world where we will look for modules
   log(util.format('Looking for services in %s',
-    options.services));
+    options.targets));
 
   // Grab those modules
   var services = requireDir(options.targets);
