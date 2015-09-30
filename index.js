@@ -10,12 +10,12 @@ var isObject = require('lodash.isobject');
 var isUndefined = require('lodash.isundefined');
 var isFunction = require('lodash.isfunction');
 var merge = require('lodash.merge');
-var bulk = require('bulk-require');
 var resolverRevolver = require('resolver-revolver');
 var util = require('util');
 var zipObject = require('lodash.zipobject');
 
 module.exports = function (options) {
+  var bulk = require('bulk-require');
   // patch our console
   var defaults = {
     console: zipObject(['log', 'info', 'warn', 'error'].map(function (level) {

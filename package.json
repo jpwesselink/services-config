@@ -1,6 +1,6 @@
 {
   "name": "services-config",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Fetch and validate service configurations more easily",
   "main": "index.js",
   "repository": {
