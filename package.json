@@ -1,6 +1,6 @@
 {
   "name": "services-config",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Fetch and validate service configurations more easily",
   "main": "index.js",
   "repository": {
@@ -13,6 +13,7 @@
   "author": "JP Wesselink <jpwesselink@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bulk-require": "^0.2.1",
     "constant-case": "^1.1.1",
     "lodash.isfunction": "^3.0.6",
     "lodash.isobject": "^3.0.2",
@@ -20,7 +21,6 @@
     "lodash.merge": "^3.3.2",
     "lodash.negate": "^3.0.1",
     "lodash.zipobject": "^3.0.0",
-    "require-dir": "^0.3.0",
     "resolver-revolver": "^0.4.8",
     "yargs": "^3.26.0"
   },

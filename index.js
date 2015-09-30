@@ -10,7 +10,7 @@ var isObject = require('lodash.isobject');
 var isUndefined = require('lodash.isundefined');
 var isFunction = require('lodash.isfunction');
 var merge = require('lodash.merge');
-var requireDir = require('require-dir');
+var bulk = require('bulk-require');
 var resolverRevolver = require('resolver-revolver');
 var util = require('util');
 var zipObject = require('lodash.zipobject');
@@ -47,7 +47,7 @@ module.exports = function (options) {
     options.targets));
 
   // Grab those modules
-  var services = requireDir(options.targets);
+  var services = bulk(options.targets, ['**/*.js']);
 
   var resolved = validateEnv();
   // And give feedback on which ones we have found.
